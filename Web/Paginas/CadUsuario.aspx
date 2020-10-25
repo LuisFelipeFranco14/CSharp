@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.master" CodeFile="CadUsuario.aspx.cs" Inherits="Web.Paginas.CadUsuario" %>
 
-<%@ Register Src="~/Paginas/Filtros/FiltroGrupoUsuario.aspx" TagName="FiltroGrupoUsuario" TagPrefix="ctrl" %>
+<%@ Register Src="~/Paginas/Filtros/FiltroGrupoUsuario.ascx" TagName="FiltroGrupoUsuario" TagPrefix="ctrl" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
@@ -133,14 +133,13 @@
         }
 
         function jsAbrirFiltroGrupoUsuarios(idLabel, idHidden) {
-            $('#hfIdLabelFinderAnimais2').val(idLabel);
-            $('#hfIdHiddenFinderAnimais2').val(idHidden);
+            $('#hfIdLabelFiltroGrupoUsuarios').val(idLabel);
+            $('#hfIdHiddenFiltroGrupoUsuarios').val(idHidden);
             $('#divFiltroGrupoUsuario').modal('show');
             $('#divFiltroGrupoUsuario').fadeIn();
         }
 
-        function jsCloseFinderAnimais(obj) {
-            $(obj).parent().parent().parent().fadeOut();
+        function jsCloseFiltroGrupoUsuarios(obj) {
             $('#divFiltroGrupoUsuario').modal('hide');
         }
 

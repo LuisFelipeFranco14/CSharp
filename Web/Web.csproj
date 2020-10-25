@@ -344,7 +344,7 @@
     <Content Include="Paginas\CadPessoa.aspx" />
     <Content Include="Paginas\CadSecao.aspx" />
     <Content Include="Paginas\CadUsuario.aspx" />
-    <Content Include="Paginas\Filtros\FiltroGrupoUsuario.aspx" />
+    <Content Include="Paginas\Filtros\FiltroGrupoUsuario.ascx" />
     <Content Include="Principal.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Scripts\additional-methods.min.js" />
@@ -481,12 +481,12 @@
     <Compile Include="Paginas\CadUsuario.aspx.designer.cs">
       <DependentUpon>CadUsuario.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Paginas\Filtros\FiltroGrupoUsuario.aspx.cs">
-      <DependentUpon>FiltroGrupoUsuario.aspx</DependentUpon>
+    <Compile Include="Paginas\Filtros\FiltroGrupoUsuario.ascx.cs">
+      <DependentUpon>FiltroGrupoUsuario.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Paginas\Filtros\FiltroGrupoUsuario.aspx.designer.cs">
-      <DependentUpon>FiltroGrupoUsuario.aspx</DependentUpon>
+    <Compile Include="Paginas\Filtros\FiltroGrupoUsuario.ascx.designer.cs">
+      <DependentUpon>FiltroGrupoUsuario.ascx</DependentUpon>
     </Compile>
     <Compile Include="Principal.aspx.cs">
       <DependentUpon>Principal.aspx</DependentUpon>

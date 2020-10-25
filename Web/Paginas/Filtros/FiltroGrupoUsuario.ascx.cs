@@ -7,13 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace Web.Paginas.Filtros
 {
-    public partial class Controls_FiltroGrupoUsuario : System.Web.UI.UserControl
+    public partial class FiltroGrupoUsuario : System.Web.UI.UserControl
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
-
     }
-
 }
