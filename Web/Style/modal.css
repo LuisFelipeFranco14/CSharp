@@ -1,0 +1,40 @@
+﻿.modalBackground
+{
+  background-color:#ccc;
+  filter:alpha(opacity=40);
+  opacity:0.5;
+}
+
+.modalPopup
+{
+   background-color: #F4F4F4;
+   padding: 10px;
+   z-index: 10001;
+}
+
+#divMessage  
+{
+    position: fixed; 
+    top: 30%;
+    left: 43%; 
+    padding: 10px; 
+    width: 14%; 
+    z-index: 1001; 
+    vertical-align: middle; 
+}
+
+#divProgressBar  
+{
+    position: fixed; 
+    top: 0px; 
+    bottom: 0px; 
+    left: 0px; 
+    right: 0px; 
+    overflow: hidden; 
+    padding: 0; 
+    margin: 0; 
+    background-color: #ccc; 
+    filter:alpha(opacity=40);
+    opacity:0.5;
+    z-index: 1000; 
+}

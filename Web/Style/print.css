@@ -1,0 +1,103 @@
+﻿@charset "utf-8";
+
+body { margin:0; padding:-10px; font-family:Arial, Helvetica, sans-serif; font-size:9pt; background-color:#FFF; color:#000; }
+body * { float:none !important; clear:both; } /* PARA MOZILLA */
+body * abbr { border:0; }
+.header, .footer { display:none; }
+.extradiv { margin:0; padding:0;}
+
+h1 { padding-bottom:0; font-size:14px; margin-bottom:0; padding:0; margin:0; }
+h1 a { text-decoration:none; }
+h2 { font-size:12px; padding:0; margin:0;}
+h3 { font-size:16px }
+h4 { font-size:14px }
+
+.mostraseloReprovado {-webkit-print-color-adjust: exact;}
+.mostraseloReprovado ul li { list-style-type:none;}
+
+.registroDefinitivo { border:0px solid #CCC; padding:10px; margin-bottom:20px; margin-top:110px;}
+.fichaIndividual { margin-top:20px !important;}
+.registroDefinitivo .top_registro { margin-bottom:5px;}
+.registroDefinitivo .top_registro p { margin:0; padding:3px 10px; color:#333;}
+.registroDefinitivo .top_registro .reg_left { float:left; width:400px; display:block; border:0px solid red;}
+.registroDefinitivo .top_registro .reg_left .titleSRG { font-size:22px;}
+.registroDefinitivo .top_registro .reg_right { float:right; width:530px; display:block;border:0px solid red;} 
+.registroDefinitivo table td { padding:4px;}
+.registroDefinitivo h1 { padding:0; margin:0; text-align:center;}
+.registroDefinitivo h2 { padding:0; margin:0 0 12px 0; text-align:left; font-size:16px;}
+
+.registroDefinitivo .conteudo_registro { float:left; width:400px; display:block; border:0px solid red; height: 720px; position: relative;}  
+.registroDefinitivo .conteudo_registro .reg_left .divAssinatura { bottom: 10px; position: absolute; margin-left: 60px; } 
+.reg_left{width:300px;}
+
+
+.dadosAnimais { margin:0; padding:0; width:200px; display:block;}
+.dadosAnimais li, .observacoes { padding:3px 5px; margin-bottom:6px; border:1px dashed #CCC; -moz-border-radius:5px; -webkit-border-radius:5px; list-style-type:none;}
+.dadosAnimais strong { display:block; color:#000;}
+.dadosAnimais li.nome, .dadosAnimais li.fazenda { margin-bottom:30px;}
+.observacoes li { padding:2px 0;}
+.observacoes strong { color:#000;}
+
+.genealogia { /*width:957px;*/width:957px;   border:0px solid red; display:block; padding:0;  font-size:11px; }
+.genealogia li { list-style-type:none;}
+.genealogia li strong { margin-left:4px;}
+.genealogia .espacoPaieMae {border-bottom:0px solid #666;  -moz-border-radius:10px; -webkit-border-radius:10px; width:220px; height:30px;}
+
+.genealogia .pai ul, .genealogia .mae ul { padding-left:0px; }
+
+
+.genealogia .lat {}
+
+.genealogia .pai ul li ul, .genealogia .mae ul li ul{ margin-left:220px; border-bottom:none;}
+.genealogia .pai ul li ul li, .genealogia .mae ul li ul li { border-left:0px solid #666;  -moz-border-radius:10px; -webkit-border-radius:10px; padding:1px;}
+.genealogia .pai ul li ul li ul, .genealogia .mae ul li ul li ul { border:none;}
+.genealogia .pai ul li ul li ul li, .genealogia .mae ul li ul li ul li { border-left:0px dashed #666;  -moz-border-radius:10px; -webkit-border-radius:10px; padding:1px;}
+.genealogia li.bisavo2, .genealogia li.bisavo1, .genealogia .avo0, .genealogia .avo1 {border-bottom:1px dashed #666;}
+.genealogia li.pai0, .genealogia li.mae0, .genealogia li.avo0, .genealogia li.bisavo1, .genealogia li.bisavo2{border-bottom:1px dashed #333; width:220px;  -moz-border-radius:10px; -webkit-border-radius:10px; padding:2px;}/*background:url(../imagens/bg_linha_genealogia.png) bottom left no-repeat; */
+.genealogia li.pai0, .genealogia li.mae0 { font-weight:bold; font-size:12px;}
+
+.genealogia ul.avospai-pai, .genealogia ul.avospai-mae, .genealogia ul.avosmae-pai, .genealogia ul.avosmae-mae, .genealogia ul.linha { border-left:0px solid #666 !important;  -moz-border-radius:10px; -webkit-border-radius:10px; padding:2px; }
+.genealogia li.bisavo2, .genealogia li.bisavo1, .genealogia .avo0, .genealogia .avo1 { margin-top:-10px !important;}
+
+.borders th a, .borders td.subtitulo, .borders .querySupport{ display:none;}
+.header .login, .header .info-contato, .header .navigation{ display:none;}
+
+ .genealogia .lateral { /*margin-right: -875px; margin-top: -965px;*/
+                -webkit-transform: rotate(-90deg) !important;
+                -moz-transform: rotate(-90deg) !important;
+                -o-transform: rotate(-90deg) !important;
+                -ms-transform: rotate(-90deg) !important;
+                transform: rotate(-90deg) !important;
+                top: 7px !important;
+                bottom: 15px !important;
+               /* margin-right: -200px !important;*/
+                margin-top: -797px !important;
+                margin-left: -252px !important;
+                padding-left: 120px;
+                padding-top:837px;
+                 margin-bottom: -122px !important;
+               /* margin-right: -890px !important;*/
+                text-transform: none !important;
+            }
+/*
+.genealogia li ul, .genealogia li ul li ul { margin:0; padding:0 !important; display:block;}
+.genealogia li { margin:0; padding:0 !important; list-style-type:none !important; font-weight:bold; color:#000;}
+.genealogia li ul li { border:1px solid red;}
+
+.genealogia li strong { font-weight:normal; font-size:11px;}
+.genealogia li.filho { color:#900; font-weight:bold; margin-top:6px;}
+.genealogia li.pai { margin-top:-8px;}
+.genealogia li.mae { margin-top:6px;}
+.genealogia li.pai, .genealogia li.mae { margin-left:165px !important;} 
+.genealogia .pai .avospai-pai, .genealogia .pai .avospai-mae, .genealogia .mae .avosmae-pai, .genealogia .mae .avosmae-mae { margin-left:162px; border-left:1px solid #CCC; border-bottom:1px solid #CCC; padding-left:8px !important; -moz-border-radius:10px; -webkit-border-radius:10px; background:#FFF; padding-bottom:5px !important;} 
+.genealogia .pai .avospai-pai li, .genealogia .pai .avospai-mae li, .genealogia .mae .avosmae-pai li, .genealogia .mae .avosmae-mae li { border:none;}
+.genealogia .pai .avospai-pai li ul, .genealogia .pai .avospai-mae li ul, .genealogia .mae .avosmae-pai li ul, .genealogia .mae .avosmae-mae li ul { margin-left:190px; border-left:1px solid #CCC; border-bottom:0px solid #CCC; padding-left:8px !important; -moz-border-radius:10px; -webkit-border-radius:10px; background:#FFF;}
+.genealogia ul.linha { border-bottom:1px solid #CCC !important;}
+.genealogia .espacoPaieMae { border-bottom:1px solid #CCC; margin:0 0 16px 0 !important; display:block; height:5px; width:170px;}
+
+.genealogia li.bisavo2, .genealogia li.bisavo1, .genealogia .avo0, .genealogia .avo1 { margin-top:-10px; border-bottom:0px solid;}
+/*
+
+
+
+
