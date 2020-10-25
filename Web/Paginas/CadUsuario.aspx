@@ -284,7 +284,7 @@
                                 </label>
                                 <div class="col-sm-7">
                                     <img runat="server" src="~/Imagens/lupa.png" id="imgLupaGrupoUsuario" style="float: left; width: 22px; height: 30px;" />
-                                    <input runat="server" type="text" id="txtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur="jsDoadora();" />
+                                    <input runat="server" type="text" id="txtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" />
                                     <input type="hidden" runat="server" id="hfGrupoUsuario" />
                                 </div>
                                 
@@ -302,7 +302,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnInserir" CssClass="btn btn-success" Text="Inserir" OnClick="btnInserir_Click" OnClientClick="return jsValidar()" />
+                            <asp:Button runat="server" ID="btnInserir" CssClass="btn btn-success" Text="Inserir" OnClick="btnInserir_Click" 
+                                OnClientClick="return jsValidar()" />
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         </div>
                     </div>
