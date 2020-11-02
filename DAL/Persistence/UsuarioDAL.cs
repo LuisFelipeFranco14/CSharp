@@ -50,13 +50,13 @@ namespace DAL.Persistence
                 FecharConexao();
             }
         }
-        public void Delete(string login)
+        public void Delete(string id)
         {
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("delete from tbusuario where login=@login", Con);
-                Cmd.Parameters.AddWithValue("@login", login);
+                Cmd = new MySqlCommand("delete from tbusuario where id=@id", Con);
+                Cmd.Parameters.AddWithValue("@id", id);
                 Cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -160,6 +160,39 @@ namespace DAL.Persistence
             catch (Exception ex)
             {
                 throw new Exception("Erro ao Buscar os Usuários: " + ex.Message);
+            }
+            finally
+            {
+                FecharConexao();
+            }
+        }
+
+        public Usuario GetLogin(string login)
+        {
+            try
+            {
+                AbrirConexao();
+                Cmd = new MySqlCommand("select * from tbusuario where login=@login", Con);
+                Cmd.Parameters.AddWithValue("@login", login);
+                Dr = Cmd.ExecuteReader();
+
+                Usuario u = null;
+
+                if (Dr.Read())
+                {
+                    u = new Usuario();
+                    u.id = Convert.ToInt32(Dr["id"]);
+                    u.login = Convert.ToString(Dr["login"]);
+                    u.senha = Convert.ToString(Dr["senha"]);
+                    u.flg_ativo = Convert.ToString(Dr["flg_ativo"]);
+                    u.id_grupo_usuario_fk = Convert.ToInt32(Dr["id_grupo_usuario_fk"]);
+                }
+
+                return u;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao Buscar o Usuário: " + ex.Message);
             }
             finally
             {

@@ -245,6 +245,42 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true">
+                <Scripts>
+                    <asp:ScriptReference Path="~/Scripts/bootstrap-switch.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.scrollTo.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.nicescroll.js" />
+                    <asp:ScriptReference Path="~/Assets/jquery-knob/js/jquery.knob.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.sparkline.js" />
+                    <asp:ScriptReference Path="~/Assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js" />
+                    <asp:ScriptReference Path="~/Scripts/owl.carousel.js" />
+                    <asp:ScriptReference Path="~/Scripts/fullcalendar.min.js" />
+                    <asp:ScriptReference Path="~/Assets/fullcalendar/fullcalendar/fullcalendar.js" />
+                    <asp:ScriptReference Path="~/Scripts/calendar-custom.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.rateit.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.customSelect.min.js" />
+                    <asp:ScriptReference Path="~/Assets/chart-master/Chart.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.mask.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.maskmoney.js" />
+                    <asp:ScriptReference Path="~/Scripts/sparkline-chart.js" />
+                    <asp:ScriptReference Path="~/Scripts/easy-pie-chart.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery-jvectormap-1.2.2.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery-jvectormap-world-mill-en.js" />
+                    <asp:ScriptReference Path="~/Scripts/xcharts.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.autosize.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.placeholder.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/gdp-data.js" />
+                    <asp:ScriptReference Path="~/Scripts/morris.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/sparklines.js" />
+                    <asp:ScriptReference Path="~/Scripts/charts.js" />
+                    <asp:ScriptReference Path="~/Scripts/jquery.slimscroll.min.js" />
+                    <asp:ScriptReference Path="~/Scripts/date.js" />
+                    <asp:ScriptReference Path="~/Scripts/Script.js" />
+                    <asp:ScriptReference Path="~/Scripts/jsFunctions.js" />
+                    <asp:ScriptReference Path="~/Scripts/main.js" />
+                    <%--<asp:ScriptReference Path="~/Scripts/jquery-3.3.1.min.js"/>--%>
+                </Scripts>
+            </asp:ScriptManager>
         <div>
             <section id="container" class="sidebar-closed">
 

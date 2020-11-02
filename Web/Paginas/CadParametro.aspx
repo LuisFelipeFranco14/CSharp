@@ -128,20 +128,16 @@
                 alert("Selecione ao menos um registro.");
                 return false;
             }
-            else
+            else {
                 if ($('#lblParametroSelecionados').text().indexOf(',') == -1) {
                     if (window.confirm("Deseja Realmente excluir esse registro?")) {
                         return true;
                     } else {
                         return false;
                     }
-                } else {
-                    if (window.confirm("Deseja Realmente excluir esses registros?")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
                 }
+            }
+                
         }
 
         function jsAbrirModalInserir() {

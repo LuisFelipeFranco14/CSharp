@@ -38,17 +38,62 @@ namespace Web.Paginas
             rptTabela.DataSource = list;
             rptTabela.DataBind();
 
-            imgLupaGrupoUsuario.Attributes.Add("onclick", "return jsAbrirFiltroGrupoUsuarios('" + txtGrupoUsuario.ClientID + "', '" + hfGrupoUsuario.ClientID + "');");
+            imgLupaGrupoUsuario.Attributes.Add("onclick", "return jsAbrirFiltroGrupoUsuarios();");
         }
 
         protected void btnDeletar_Click(object sender, EventArgs e)
         {
-
+            UsuarioDAL uDal = new UsuarioDAL();
+            hfusuarios.Value = hfusuarios.Value.Replace("-", ",");
+            uDal.Delete(hfusuarios.Value);
+            Response.Redirect(ResolveUrl("CadUsuario.aspx"));
         }
 
         protected void btnInserir_Click(object sender, EventArgs e)
         {
 
         }
+
+        [WebMethod]
+        public static bool validarLogin(string login)
+        {
+            UsuarioDAL uDal = new UsuarioDAL();
+            Usuario u = uDal.GetLogin(login);
+
+            if (u != null)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        [WebMethod]
+        public static bool GravarRegistro(string login, string senha, string flag_Ativo, string usu_grupo_id, string acao, string id_alt)
+        {
+            Usuario u = new Usuario();
+            u.login = login;
+            u.senha = senha;
+            u.flg_ativo = flag_Ativo;
+            u.id_grupo_usuario_fk = Convert.ToInt32(usu_grupo_id);
+
+            UsuarioDAL uDal = new UsuarioDAL();
+
+            if (acao == "Inserir")
+            {
+                uDal.Insert(u);
+            }
+            else if (acao == "Alterar")
+            {
+                u.id = Convert.ToInt32(id_alt);
+                uDal.Update(u);
+            }
+
+            return true;
+
+        }
+
+
     }
 }

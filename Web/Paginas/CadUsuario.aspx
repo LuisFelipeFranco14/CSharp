@@ -132,17 +132,146 @@
             $('#InserirModal').modal('hide');
         }
 
-        function jsAbrirFiltroGrupoUsuarios(idLabel, idHidden) {
-            $('#hfIdLabelFiltroGrupoUsuarios').val(idLabel);
-            $('#hfIdHiddenFiltroGrupoUsuarios').val(idHidden);
+        function jsAbrirFiltroGrupoUsuarios() {
             $('#divFiltroGrupoUsuario').modal('show');
             $('#divFiltroGrupoUsuario').fadeIn();
         }
 
-        function jsCloseFiltroGrupoUsuarios(obj) {
+        function jsCloseFiltroGrupoUsuarios() {
+            $('#ContentPlaceHolder1_hfGrupoUsuario').val("");
+            $('#ContentPlaceHolder1_txtGrupoUsuario').text("");
+            $('#ContentPlaceHolder1_txtGrupoUsuario').val("");
+
+            if (Acao == "Inserir") {
+                $('#ContentPlaceHolder1_hfGrupoUsuario').val($('#ContentPlaceHolder1_ctrFiltroGrupoUsuario_hfgrupoUser').val());
+                $('#ContentPlaceHolder1_txtGrupoUsuario').val($('#lblGrupoUserSelecionados').text());
+            }
+
+            $('#ContentPlaceHolder1_ctrFiltroGrupoUsuario_hfgrupoUser').val("");
+            $('#lblGrupoUserSelecionados').text("");
+            GrupoUserSelecionados = [];
+            GrupoUserSelecionadosdesc_grupo = [];
+
+            var rows = $("#tbDadosFiltroGrupoUsuario").dataTable().fnGetNodes();
+            for (var i = 0; i < rows.length; i++) {
+                var checkBox = $(rows[i]).find('.checkboxdahora');
+                $(checkBox).prop('checked', false);
+            }
+
             $('#divFiltroGrupoUsuario').modal('hide');
         }
 
+        function jsValidar() {
+            var Login = "";
+            var Senha = "";
+            var Flag_Ativo = "";
+            var validarLogin = false;
+            var usu_grupo_id = "";
+
+            if (Acao == "Inserir") {
+                if ($('#ContentPlaceHolder1_txtLogin').val().trim() == '') {
+                    alert("Por favor informe o Login.");
+                    $('#ContentPlaceHolder1_txtLogin').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_txtSenha').val().trim() == '') {
+                    alert("Por favor informe a senha.");
+                    $('#ContentPlaceHolder1_txtSenha').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_txtSenhaNovamente').val().trim() == '') {
+                    alert("Por favor informe a senha novamente.");
+                    $('#ContentPlaceHolder1_txtSenhaNovamente').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_txtSenhaNovamente').val() != $('#ContentPlaceHolder1_txtSenha').val()) {
+                    alert("Senha não está batendo");
+                    $('#ContentPlaceHolder1_txtSenhaNovamente').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_hfGrupoUsuario').val().trim() == '') {
+                    alert("Por favor informe o Grupo do Usuário");
+                    return false;
+                } else {
+                    $.ajax({
+                        type: "post",
+                        url: "CadUsuario.aspx/validarLogin",
+                        data: "{'login':'" + $('#ContentPlaceHolder1_txtLogin').val() + "'}",
+                        async: false,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: "json",
+                        traditional: true,
+                        success: function (result) {
+                            if (result.d) {
+                                
+                                validarLogin = true;
+                            }
+                        },
+                        error: function (error) {
+                            validarLogin = true;
+                        }
+                    });
+                }
+
+                if (validarLogin) {
+                    alert("Esse login já foi usado.");
+                    $('#ContentPlaceHolder1_txtLogin').focus();
+                    return false;
+                }
+
+                if (document.getElementById('ckAtivo').checked) {
+                    Flag_Ativo = 'S';
+                } else {
+                    Flag_Ativo = 'N'
+                }
+
+                Login = $('#ContentPlaceHolder1_txtLogin').val();
+                Senha = $('#ContentPlaceHolder1_txtSenha').val();
+                usu_grupo_id = $('#ContentPlaceHolder1_hfGrupoUsuario').val();
+
+            } else if (Acao == "Alterar") {
+
+            }
+
+            $.ajax({
+                type: "post",
+                url: "CadUsuario.aspx/GravarRegistro",
+                data: JSON.stringify({
+                    login: Login,
+                    senha: Senha,
+                    flag_Ativo: Flag_Ativo,
+                    usu_grupo_id: usu_grupo_id,
+                    acao: Acao,
+                    id_alt: $('#ContentPlaceHolder1_hfusuarios').val()
+                }),
+                async: false,
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                traditional: true,
+                success: function (result) {
+                    if (result.d) {
+                        return true;
+                    }
+                },
+                error: function (error) {
+                    return false;
+                }
+            });
+
+        }
+
+        function jsValidarDelete() {
+            if ($('#lblUsuarioSelecionados').text() == "") {
+                alert("Selecione ao menos um registro.");
+                return false;
+            }
+            else {
+                if ($('#lblUsuarioSelecionados').text().indexOf(',') == -1) {
+                    if (window.confirm("Deseja Realmente excluir esse registro?")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+                
+        }
 
     </script>
 
@@ -275,7 +404,18 @@
                                     <input type="hidden" runat="server" id="hftxtSenha" />
                                 </div>
                             </div>
+                            <br />
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Senha:
+                                </label>
 
+                                <div class="col-sm-6">
+                                    <input runat="server" type="password" id="txtSenhaNovamente" placeholder="Digite a Senha Novamente " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 10px; text-transform: uppercase" />
+                                    <input type="hidden" runat="server" id="hftxtSenhaNovamente" />
+                                </div>
+                            </div>
                             <br />
                             <div class="form-group">
 
@@ -287,7 +427,7 @@
                                     <input runat="server" type="text" id="txtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" />
                                     <input type="hidden" runat="server" id="hfGrupoUsuario" />
                                 </div>
-                                
+
                                 <label class="col-sm-1">
                                     Ativo:
                                 </label>
@@ -302,7 +442,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <asp:Button runat="server" ID="btnInserir" CssClass="btn btn-success" Text="Inserir" OnClick="btnInserir_Click" 
+                            <asp:Button runat="server" ID="btnInserir" CssClass="btn btn-success" Text="Inserir" OnClick="btnInserir_Click"
                                 OnClientClick="return jsValidar()" />
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         </div>
@@ -313,7 +453,7 @@
         </section>
     </section>
 
-    
+
     <ctrl:FiltroGrupoUsuario runat="server" ID="ctrFiltroGrupoUsuario" />
 </asp:Content>
 
