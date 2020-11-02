@@ -33,7 +33,7 @@ namespace Web
 
             UsuarioDAL usu_dal = new UsuarioDAL();
             Usuario u = new Usuario();
-            u = usu_dal.GetId(txtUsuario.Value, txtSenha.Value);
+            u = usu_dal.GetUsuarioSenha(txtUsuario.Value, txtSenha.Value);
             u_logado.id_grupo_usuario_fk = u.id_grupo_usuario_fk;
 
             Session["USUARIO"] = u_logado;
@@ -45,7 +45,7 @@ namespace Web
         {
             UsuarioDAL usu_dal = new UsuarioDAL();
             Usuario u = new Usuario();
-            u = usu_dal.GetId(login, senha);
+            u = usu_dal.GetUsuarioSenha(login, senha);
             return u != null;
         }
 

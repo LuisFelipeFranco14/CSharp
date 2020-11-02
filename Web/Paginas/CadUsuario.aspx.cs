@@ -54,6 +54,11 @@ namespace Web.Paginas
 
         }
 
+        protected void btnAlterar_Click(object sender, EventArgs e)
+        {
+
+        }
+
         [WebMethod]
         public static bool validarLogin(string login)
         {
@@ -94,6 +99,100 @@ namespace Web.Paginas
 
         }
 
+        [WebMethod]
+        public static List<object> validarPesqGrupo_Usuario(string GrupoUsuario)
+        {
+            UsuarioDAL uDAL = new UsuarioDAL();
+            Grupo_Usuario gu = uDAL.getGrupo_Usuario(GrupoUsuario);
+            List<object> objGrupo_Usuario = new List<object>();
+            if (gu != null)
+            {
+                var ListGrupo_Usuario = new
+                {
+                    id = gu.id,
+                    desc_grupo = gu.desc_grupo
+                };
+                objGrupo_Usuario.Add(ListGrupo_Usuario);
+            }
+            else
+            {
+                var ListGrupo_Usuario = new
+                {
+                    id = 0,
+                    desc_grupo = ""
+                };
+                objGrupo_Usuario.Add(ListGrupo_Usuario);
+
+            }
+            
+            return objGrupo_Usuario;
+        }
+
+        [WebMethod]
+        public static string relatorio(string id)
+        {
+            id = id.Trim();
+            if (id.Contains("-"))
+            {
+                id = id.Replace("-", ",");
+                id = id.Replace("'", "");
+            }
+
+            UsuarioDAL uDal = new UsuarioDAL();
+            Grupo_UsuarioDAL guDal = new Grupo_UsuarioDAL();
+            List<Usuario> ListUsuario = uDal.relatorio(id);
+
+            List<object> list = new List<object>();
+
+            foreach (Usuario usuario in ListUsuario)
+            {
+                if (usuario.flg_ativo == "S") usuario.flg_ativo = "Sim";
+                else if (usuario.flg_ativo == "N") usuario.flg_ativo = "Não";
+
+                Grupo_Usuario gu = new Grupo_Usuario();
+                gu = guDal.GetId(usuario.id_grupo_usuario_fk);
+
+                var newObj = new
+                {
+                    id = usuario.id,
+                    login = usuario.login,
+                    desc_grupo = gu.desc_grupo,
+                    flg_ativo = usuario.flg_ativo 
+                };
+
+                list.Add(newObj);
+            }
+
+            var result = JsonConvert.SerializeObject(list);
+            return result;
+        }
+
+        [WebMethod]
+        public static List<object> montarUsuario(string id)
+        {
+            List<object> objusuario = new List<object>();
+            Usuario usuario = new Usuario();
+            UsuarioDAL uDal = new UsuarioDAL();
+            Grupo_UsuarioDAL guDal = new Grupo_UsuarioDAL();
+            usuario = uDal.getId(id);
+
+            if (usuario.flg_ativo == "S") usuario.flg_ativo = "Sim";
+            else if (usuario.flg_ativo == "N") usuario.flg_ativo = "Não";
+
+            Grupo_Usuario gu = guDal.GetId(usuario.id_grupo_usuario_fk);
+
+            var Listusuario = new
+            {
+                id = usuario.id,
+                login = usuario.login,
+                senha = usuario.senha,
+                id_grupo_usuario = gu.id,
+                desc_grupo = gu.desc_grupo,
+                flg_ativo = usuario.flg_ativo
+            };
+            objusuario.Add(Listusuario);
+            return objusuario;
+        }
 
     }
 }

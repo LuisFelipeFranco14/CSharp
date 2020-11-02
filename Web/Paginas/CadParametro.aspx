@@ -135,6 +135,12 @@
                     } else {
                         return false;
                     }
+                } else {
+                    if (window.confirm("Deseja Realmente excluir esses registros?")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
                 

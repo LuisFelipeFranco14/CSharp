@@ -132,6 +132,52 @@
             $('#InserirModal').modal('hide');
         }
 
+        function jsAbrirModalAlterar() {
+            if ($('#lblUsuarioSelecionados').text() == "") {
+                alert("Selecione o registro.");
+            } else if ($('#lblUsuarioSelecionados').text().indexOf(',') != -1) {
+                alert("Selecione apenas um registro");
+            } else {
+                Acao = "Alterar";
+                jsMontarUsuarioAlt();
+                $('#AlterarModal').modal('show');
+            }
+        }
+
+        function jsMontarUsuarioAlt() {
+            var parametro = $('#ContentPlaceHolder1_hfusuarios').val();
+
+            $.ajax({
+                type: "POST",
+                url: "CadUsuario.aspx/montarUsuario",
+                data: "{'id':'" + parametro + "'}",
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                traditional: true,
+                async: false,
+                success: function (result) {
+                    if (result.d) {
+                        $('#ContentPlaceHolder1_AlttxtLogin').val(result.d[0].login);
+                        $('#ContentPlaceHolder1_hfAltGrupoUsuario').val(result.d[0].id_grupo_usuario);
+                        $('#ContentPlaceHolder1_AlttxtGrupoUsuario').val(result.d[0].desc_grupo);
+
+                        if (result.d[0].flg_ativo == 'Sim') {
+                            document.getElementById('AltckAtivo').switchButton('on', true);
+                        } else {
+                            document.getElementById('AltckAtivo').switchButton('off', true);
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function jsfecharModalAlterar() {
+            $('#AlterarModal').modal('hide');
+        }
+
         function jsAbrirFiltroGrupoUsuarios() {
             $('#divFiltroGrupoUsuario').modal('show');
             $('#divFiltroGrupoUsuario').fadeIn();
@@ -226,7 +272,36 @@
                 usu_grupo_id = $('#ContentPlaceHolder1_hfGrupoUsuario').val();
 
             } else if (Acao == "Alterar") {
+                if ($('#ContentPlaceHolder1_AlttxtLogin').val().trim() == '') {
+                    alert("Por favor informe o Login.");
+                    $('#ContentPlaceHolder1_AlttxtLogin').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_AlttxtSenha').val().trim() == '') {
+                    alert("Por favor informe a senha.");
+                    $('#ContentPlaceHolder1_AlttxtSenha').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_AlttxtSenhaNovamente').val().trim() == '') {
+                    alert("Por favor informe a senha novamente.");
+                    $('#ContentPlaceHolder1_AlttxtSenhaNovamente').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_AlttxtSenhaNovamente').val() != $('#ContentPlaceHolder1_AlttxtSenha').val()) {
+                    alert("Senha não está batendo");
+                    $('#ContentPlaceHolder1_AlttxtSenhaNovamente').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_hfAltGrupoUsuario').val().trim() == '') {
+                    alert("Por favor informe o Grupo do Usuário");
+                    return false;
+                }
 
+                if (document.getElementById('AltckAtivo').checked) {
+                    Flag_Ativo = 'S';
+                } else {
+                    Flag_Ativo = 'N'
+                }
+
+                Login = $('#ContentPlaceHolder1_AlttxtLogin').val();
+                Senha = $('#ContentPlaceHolder1_AlttxtSenha').val();
+                usu_grupo_id = $('#ContentPlaceHolder1_hfAltGrupoUsuario').val();
             }
 
             $.ajax({
@@ -268,16 +343,205 @@
                     } else {
                         return false;
                     }
+                } else {
+                    if (window.confirm("Deseja Realmente excluir esses registros?")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
                 
+        }
+        
+        function jsvalidarPesqGrupoUsuario() {
+            var txtGrupoUsuario = "";
+            if (Acao == "Inserir") {
+                txtGrupoUsuario = $('#ContentPlaceHolder1_txtGrupoUsuario').val();
+            } else if (Acao == "Alterar") {
+                
+            }
+
+            if (txtGrupoUsuario != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "CadUsuario.aspx/validarPesqGrupo_Usuario",
+                    data: JSON.stringify({ GrupoUsuario: txtGrupoUsuario }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    traditional: true,
+                    async: false,
+                    success: function (result) {
+                        if (Acao == "Inserir") {
+                            $('#ContentPlaceHolder1_hfGrupoUsuario').val(result.d[0].id);
+                            $('#ContentPlaceHolder1_txtGrupoUsuario').val(result.d[0].desc_grupo);
+                        } else if (Acao == "Alterar") {
+
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+        }
+
+        function jsRelatorio() {
+            if ($('#lblUsuarioSelecionados').text() == "") {
+                alert("Selecione ao menos um registro.");
+            } else {
+                Acao = "Relatorio";
+                var parametro = $('#ContentPlaceHolder1_hfusuarios').val();
+                $.ajax({
+                    type: "POST",
+                    url: "CadUsuario.aspx/relatorio",
+                    data: JSON.stringify({ id: parametro }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    traditional: true,
+                    async: false,
+                    success: function (result) {
+
+                        const jsonResult = JSON.parse(result.d);
+                        const dataSet = jsonToArray(jsonResult);
+
+                        $(document).ready(function () {
+                            var table = $('#tbRelatorio').DataTable({
+                                "oLanguage": {
+                                    "sProcessing": "Processando...",
+                                    "sLengthMenu": "Mostrar _MENU_ registros",
+                                    "sZeroRecords": "Não foram encontrados resultados",
+                                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                                    "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+                                    "sSearch": "Buscar: ",
+                                    "oPaginate": {
+                                        "sFirst": "Primeiro",
+                                        "sPrevious": "Anterior",
+                                        "sNext": "Seguinte",
+                                        "sLast": "Último"
+                                    }
+                                },
+                                searching: true,
+                                paging: true,
+                                dom: 'Bfrtip',
+                                buttons: [
+                                    {
+                                        extend: 'excelHtml5',
+                                        text: '<i class="btn btn-sm btn btn-success fa fa-file-excel-o"></i>',
+                                        titleAttr: 'Excel',
+                                    },
+                                    {
+                                        extend: 'copyHtml5',
+                                        text: '<i class="btn btn-sm btn btn-primary fa fa-files-o"></i>',
+                                        titleAttr: 'Copiar Registros'
+                                    }
+                                ],
+                                "destroy": true,
+                                "data": dataSet,
+                                "columns": [
+                                    { title: "ID" },
+                                    { title: "Login" },
+                                    { title: "Grupo de Usuários" },
+                                    { title: "Ativo" }
+                                ],
+                                "columnDefs": [
+                                    {
+                                        targets: 0,
+                                        render: function (data, type, row, meta) {
+                                            if (type === 'display') {
+                                                var label = 'label-font';
+
+                                                if (data == '' || data == null || data == '0') {
+                                                    data = 'N/A';
+                                                    label = 'label-default';
+                                                }
+
+                                                return '<span class="label ' + label + '" style="color: black; font-size: 11px;">' + data + '</span>';
+                                            }
+                                            return data;
+                                        }
+                                    },
+                                    {
+                                        targets: 1,
+                                        render: function (data, type, row, meta) {
+                                            if (type === 'display') {
+                                                var label = 'label-font';
+
+                                                if (data == '' || data == null || data == '0') {
+                                                    data = 'N/A';
+                                                    label = 'label-default';
+                                                }
+
+                                                return '<span class="label ' + label + '" style="color: black; font-size: 11px;">' + data + '</span>';
+                                            }
+                                            return data;
+                                        }
+                                    },
+                                    {
+                                        targets: 2,
+                                        render: function (data, type, row, meta) {
+                                            if (type === 'display') {
+                                                var label = 'label-font';
+
+                                                if (data == '' || data == null || data == '0') {
+                                                    data = 'N/A';
+                                                    label = 'label-default';
+                                                }
+
+                                                return '<span class="label ' + label + '" style="color: black; font-size: 11px;">' + data + '</span>';
+                                            }
+                                            return data;
+                                        }
+                                    },
+                                    {
+                                        targets: 3,
+                                        render: function (data, type, row, meta) {
+                                            if (type === 'display') {
+                                                var label = 'label-font';
+
+                                                if (data == '' || data == null || data == '0') {
+                                                    data = 'N/A';
+                                                    label = 'label-default';
+                                                }
+
+                                                return '<span class="label ' + label + '" style="color: black; font-size: 11px;">' + data + '</span>';
+                                            }
+                                            return data;
+                                        }
+                                    }
+
+                                ]
+                            });
+                        });
+
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+                $('#RelatorioModal').modal('show');
+            }
+        }
+
+        function jsonToArray(json) {
+            var dataSet = new Array
+
+            $.each(json, function (index, value) {
+                var tempArray = new Array
+                for (var o in value) {
+                    tempArray.push(value[o])
+                }
+                dataSet.push(tempArray)
+            })
+            return dataSet
         }
 
     </script>
 
     <style>
         .input-sm {
-            min-width: 900px;
+            min-width: 700px;
         }
 
         .relatorio {
@@ -292,7 +556,7 @@
         }
 
         .modal-content {
-            width: 760px;
+            width: 910px;
         }
     </style>
 
@@ -424,7 +688,7 @@
                                 </label>
                                 <div class="col-sm-7">
                                     <img runat="server" src="~/Imagens/lupa.png" id="imgLupaGrupoUsuario" style="float: left; width: 22px; height: 30px;" />
-                                    <input runat="server" type="text" id="txtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" />
+                                    <input runat="server" type="text" id="txtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur = "jsvalidarPesqGrupoUsuario();" />
                                     <input type="hidden" runat="server" id="hfGrupoUsuario" />
                                 </div>
 
@@ -446,6 +710,103 @@
                                 OnClientClick="return jsValidar()" />
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" tabindex="-1" id="AlterarModal" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Alterar Registro</h5>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Login:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="text" id="AlttxtLogin" placeholder="Digite o Login " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 10px;" />
+                                    <input type="hidden" runat="server" id="hfAlttxtLogin" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Senha:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="password" id="AlttxtSenha" placeholder="Digite a Senha " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 10px; text-transform: uppercase" />
+                                    <input type="hidden" runat="server" id="hfAlttxtSenha" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Senha:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="password" id="AlttxtSenhaNovamente" placeholder="Digite a Senha Novamente " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 10px; text-transform: uppercase" />
+                                    <input type="hidden" runat="server" id="hfAlttxtSenhaNovamente" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+
+                                <label class="col-sm-3">
+                                    Grupo de Usuário:
+                                </label>
+                                <div class="col-sm-7">
+                                    <img runat="server" src="~/Imagens/lupa.png" id="AltimgLupaGrupoUsuario" style="float: left; width: 22px; height: 30px;" />
+                                    <input runat="server" type="text" id="AlttxtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur = "jsvalidarPesqGrupoUsuario();" />
+                                    <input type="hidden" runat="server" id="hfAltGrupoUsuario" />
+                                </div>
+
+                                <label class="col-sm-1">
+                                    Ativo:
+                                </label>
+
+                                <div class="col-sm-0">
+
+                                    <input id="AltckAtivo" type="checkbox"
+                                        data-toggle="switchbutton" checked data-width="60" data-height="40" data-onlabel="Sim" data-offlabel="Não">
+                                </div>
+
+                            </div>
+    
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button runat="server" ID="btnAlterar" CssClass="btn btn-success" Text="Alterar" OnClick="btnAlterar_Click" OnClientClick="return jsValidar()" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" id="RelatorioModal" role="dialog" aria-hidden="true" aria-labelledby="myExtraLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content relatorio">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Relátorio</h5>
+                        </div>
+
+                        <div class="modal-body">
+                            <table id="tbRelatorio" class="table table-striped table-advance"></table>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
