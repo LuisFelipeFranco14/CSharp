@@ -1,6 +1,7 @@
 echo on
 
 echo Iniciando Backup
+echo Lembrando que a maneira de salvar a informação sem a criação de um novo banco é --no-create-db depois do comando --routines
 
 for /f "delims=" %%a in ('wmic OS Get localdatetime ^| find "."') do set dt=%%a
 set year=%dt:~0,4%
