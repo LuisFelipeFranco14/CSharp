@@ -345,6 +345,7 @@
     <Content Include="Paginas\CadSecao.aspx" />
     <Content Include="Paginas\CadUsuario.aspx" />
     <Content Include="Paginas\Filtros\FiltroGrupoUsuario.ascx" />
+    <Content Include="Paginas\Filtros\FiltroSecao.ascx" />
     <Content Include="Principal.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Scripts\additional-methods.min.js" />
@@ -487,6 +488,13 @@
     </Compile>
     <Compile Include="Paginas\Filtros\FiltroGrupoUsuario.ascx.designer.cs">
       <DependentUpon>FiltroGrupoUsuario.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Paginas\Filtros\FiltroSecao.ascx.cs">
+      <DependentUpon>FiltroSecao.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\Filtros\FiltroSecao.ascx.designer.cs">
+      <DependentUpon>FiltroSecao.ascx</DependentUpon>
     </Compile>
     <Compile Include="Principal.aspx.cs">
       <DependentUpon>Principal.aspx</DependentUpon>

@@ -52,13 +52,12 @@ namespace DAL.Persistence
             }
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("delete from tbmodulo where id=@id", Con);
-                Cmd.Parameters.AddWithValue("@id", id);
+                Cmd = new MySqlCommand("delete from tbmodulo where id in ("+ id + ")", Con);
                 Cmd.ExecuteNonQuery();
             }
             catch (Exception ex)

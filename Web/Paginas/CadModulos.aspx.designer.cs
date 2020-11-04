@@ -14,5 +14,7 @@ namespace Web.Paginas
     public partial class CadModulos
     {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Repeater rptTabela;
+        protected global::System.Web.UI.WebControls.HiddenField hfmodulos;
     }
 }

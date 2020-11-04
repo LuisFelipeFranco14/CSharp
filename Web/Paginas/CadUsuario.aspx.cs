@@ -14,10 +14,10 @@ namespace Web.Paginas
         {
             UsuarioDAL uDal = new UsuarioDAL();
             Grupo_UsuarioDAL guDal = new Grupo_UsuarioDAL();
-            List<Usuario> ListGrupo_Usuario = uDal.GetALL();
+            List<Usuario> ListUsuario = uDal.GetALL();
             List<object> list = new List<object>();
 
-            foreach (Usuario u in ListGrupo_Usuario)
+            foreach (Usuario u in ListUsuario)
             {
                 if (u.flg_ativo == "S") u.flg_ativo = "Sim";
                 else if (u.flg_ativo == "N") u.flg_ativo = "Não";
