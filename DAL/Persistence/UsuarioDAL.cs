@@ -230,35 +230,5 @@ namespace DAL.Persistence
             }
         }
 
-        public Grupo_Usuario getGrupo_Usuario(string desc_grupo)
-        {
-            try
-            {
-                AbrirConexao();
-                Cmd = new MySqlCommand("select * from tbgrupo_usuario where desc_grupo LIKE concat('%', @desc_grupo, '%') ", Con);
-                Cmd.Parameters.AddWithValue("@desc_grupo", desc_grupo);
-                Dr = Cmd.ExecuteReader();
-
-                Grupo_Usuario gu = null;
-
-                if (Dr.Read())
-                {
-                    gu = new Grupo_Usuario();
-                    gu.id = Convert.ToInt32(Dr["id"]);
-                    gu.desc_grupo = Convert.ToString(Dr["desc_grupo"]);
-                }
-                return gu;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao Buscar o Usuário: " + ex.Message);
-            }
-            finally
-            {
-                FecharConexao();
-            }
-        }
-
     }
 }

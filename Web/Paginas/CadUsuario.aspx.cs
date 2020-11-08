@@ -39,6 +39,7 @@ namespace Web.Paginas
             rptTabela.DataBind();
 
             imgLupaGrupoUsuario.Attributes.Add("onclick", "return jsAbrirFiltroGrupoUsuarios();");
+            AltimgLupaGrupoUsuario.Attributes.Add("onclick", "return jsAbrirFiltroGrupoUsuarios();");
         }
 
         protected void btnDeletar_Click(object sender, EventArgs e)
@@ -102,8 +103,8 @@ namespace Web.Paginas
         [WebMethod]
         public static List<object> validarPesqGrupo_Usuario(string GrupoUsuario)
         {
-            UsuarioDAL uDAL = new UsuarioDAL();
-            Grupo_Usuario gu = uDAL.getGrupo_Usuario(GrupoUsuario);
+            Grupo_UsuarioDAL guDAL = new Grupo_UsuarioDAL();
+            Grupo_Usuario gu = guDAL.getGrupo_Usuario(GrupoUsuario);
             List<object> objGrupo_Usuario = new List<object>();
             if (gu != null)
             {

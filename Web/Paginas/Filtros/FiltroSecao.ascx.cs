@@ -1,9 +1,9 @@
 ﻿using System;
+using DAL.Model;
+using DAL.Persistence;
+using System.Web.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web.Script.Services;
 
 namespace Web.Paginas.Filtros
 {
@@ -11,7 +11,11 @@ namespace Web.Paginas.Filtros
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            SecaoDAL sDal = new SecaoDAL();
+            List<Secao> ListSecao = sDal.GetALL();
 
+            rptTabela.DataSource = ListSecao;
+            rptTabela.DataBind();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Web.Paginas
         protected global::System.Web.UI.WebControls.Repeater rptTabela;
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         protected global::System.Web.UI.HtmlControls.HtmlImage imgLupaGrupoUsuario;
+        protected global::System.Web.UI.HtmlControls.HtmlImage AltimgLupaGrupoUsuario;
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtGrupoUsuario;
         protected global::System.Web.UI.WebControls.HiddenField hfGrupoUsuario;
         protected global::System.Web.UI.UserControl Controls_FiltroGrupoUsuario;

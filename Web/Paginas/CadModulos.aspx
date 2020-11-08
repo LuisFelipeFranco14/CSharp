@@ -1,5 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.master" CodeFile="CadModulos.aspx.cs" Inherits="Web.Paginas.CadModulos" %>
 
+<%@ Register Src="~/Paginas/Filtros/FiltroGrupoUsuario.ascx" TagName="FiltroGrupoUsuario" TagPrefix="ctrl" %>
+<%@ Register Src="~/Paginas/Filtros/FiltroSecao.ascx" TagName="FiltroSecao" TagPrefix="ctrl" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -128,6 +131,51 @@
 
         function jsfecharModalInserir() {
             $('#InserirModal').modal('hide');
+        }
+
+        function jsAbrirModalAlterar() {
+            if ($('#lblModuloSelecionados').text() == "") {
+                alert("Selecione o registro.");
+            } else if ($('#lblModuloSelecionados').text().indexOf(',') != -1) {
+                alert("Selecione apenas um registro");
+            } else {
+                Acao = "Alterar";
+                jsMontarModuloAlt();
+                $('#AlterarModal').modal('show');
+            }
+        }
+
+        function jsMontarModuloAlt() {
+            var parametro = $('#ContentPlaceHolder1_hfmodulos').val();
+
+            $.ajax({
+                type: "POST",
+                url: "CadModulos.aspx/montarModulo",
+                data: "{'id':'" + parametro + "'}",
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                traditional: true,
+                async: false,
+                success: function (result) {
+                    if (result.d) {
+                        $('#ContentPlaceHolder1_AlttxtDescricao').val(result.d[0].descr_modulo);
+                        $('#ContentPlaceHolder1_AlttxtCaminho').val(result.d[0].caminho);
+
+                        $('#ContentPlaceHolder1_hfAltGrupoUsuario').val(result.d[0].id_grupo_usuario_fk);
+                        $('#ContentPlaceHolder1_AlttxtGrupoUsuario').val(result.d[0].desc_grupo);
+
+                        $('#ContentPlaceHolder1_hfAltSecao').val(result.d[0].id_secao_fk);
+                        $('#ContentPlaceHolder1_AlttxtSecao').val(result.d[0].descricao_com_caracter);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function jsfecharModalAlterar() {
+            $('#AlterarModal').modal('hide');
         }
 
         function jsValidarDelete() {
@@ -320,6 +368,211 @@
             return dataSet
         }
 
+        function jsAbrirFiltroGrupoUsuarios() {
+            $('#divFiltroGrupoUsuario').modal('show');
+            $('#divFiltroGrupoUsuario').fadeIn();
+        }
+
+        function jsCloseFiltroGrupoUsuarios() {
+            $('#ContentPlaceHolder1_hfGrupoUsuario').val("");
+            $('#ContentPlaceHolder1_txtGrupoUsuario').text("");
+            $('#ContentPlaceHolder1_txtGrupoUsuario').val("");
+
+            if (Acao == "Inserir") {
+                $('#ContentPlaceHolder1_hfGrupoUsuario').val($('#ContentPlaceHolder1_ctrFiltroGrupoUsuario_hfgrupoUser').val());
+                $('#ContentPlaceHolder1_txtGrupoUsuario').val($('#lblGrupoUserSelecionados').text());
+            }
+
+            $('#ContentPlaceHolder1_ctrFiltroGrupoUsuario_hfgrupoUser').val("");
+            $('#lblGrupoUserSelecionados').text("");
+            GrupoUserSelecionados = [];
+            GrupoUserSelecionadosdesc_grupo = [];
+
+            var rows = $("#tbDadosFiltroGrupoUsuario").dataTable().fnGetNodes();
+            for (var i = 0; i < rows.length; i++) {
+                var checkBox = $(rows[i]).find('.checkboxdahora');
+                $(checkBox).prop('checked', false);
+            }
+
+            $('#divFiltroGrupoUsuario').modal('hide');
+        }
+
+        function jsvalidarPesqGrupoUsuario() {
+            var txtGrupoUsuario = "";
+            if (Acao == "Inserir") {
+                txtGrupoUsuario = $('#ContentPlaceHolder1_txtGrupoUsuario').val();
+            } else if (Acao == "Alterar") {
+                txtGrupoUsuario = $('#ContentPlaceHolder1_AlttxtGrupoUsuario').val();
+            }
+
+            if (txtGrupoUsuario != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "CadUsuario.aspx/validarPesqGrupo_Usuario",
+                    data: JSON.stringify({ GrupoUsuario: txtGrupoUsuario }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    traditional: true,
+                    async: false,
+                    success: function (result) {
+                        if (Acao == "Inserir") {
+                            $('#ContentPlaceHolder1_hfGrupoUsuario').val(result.d[0].id);
+                            $('#ContentPlaceHolder1_txtGrupoUsuario').val(result.d[0].desc_grupo);
+                        } else if (Acao == "Alterar") {
+                            $('#ContentPlaceHolder1_hfAltGrupoUsuario').val(result.d[0].id);
+                            $('#ContentPlaceHolder1_AlttxtGrupoUsuario').val(result.d[0].desc_grupo);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+        }
+
+        function jsAbrirFiltroSecoes() {
+            $('#divFiltroSecao').modal('show');
+            $('#divFiltroSecao').fadeIn();
+        }
+
+        function jsCloseFiltroSecaos() {
+            $('#ContentPlaceHolder1_hfSecao').val("");
+            $('#ContentPlaceHolder1_txtSecao').text("");
+            $('#ContentPlaceHolder1_txtSecao').val("");
+
+            if (Acao == "Inserir") {
+                $('#ContentPlaceHolder1_hfSecao').val($('#ContentPlaceHolder1_ctrFiltroSecao_hfSecao').val());
+                $('#ContentPlaceHolder1_txtSecao').val($('#lblSecaoSelecionados').text());
+            }
+
+            $('#ContentPlaceHolder1_ctrFiltroSecao_hfSecao').val("");
+            $('#lblSecaoSelecionados').text("");
+            SecaoSelecionados = [];
+            SecaoSelecionadosdesc_grupo = [];
+
+            var rows = $("#tbDadosFiltroSecao").dataTable().fnGetNodes();
+            for (var i = 0; i < rows.length; i++) {
+                var checkBox = $(rows[i]).find('.checkboxdahora');
+                $(checkBox).prop('checked', false);
+            }
+
+            $('#divFiltroSecao').modal('hide');
+        }
+
+        function jsvalidarPesqSecao() {
+            var txtSecao = "";
+            if (Acao == "Inserir") {
+                txtSecao = $('#ContentPlaceHolder1_txtSecao').val();
+            } else if (Acao == "Alterar") {
+                txtSecao = $('#ContentPlaceHolder1_AlttxtSecao').val();
+            }
+
+            if (txtSecao != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "CadModulos.aspx/validarPesqSecao",
+                    data: JSON.stringify({ descricao_com_caracter: txtSecao }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: "json",
+                    traditional: true,
+                    async: false,
+                    success: function (result) {
+                        if (Acao == "Inserir") {
+                            $('#ContentPlaceHolder1_hfSecao').val(result.d[0].id);
+                            $('#ContentPlaceHolder1_txtSecao').val(result.d[0].descricao_com_caracter);
+                        } else if (Acao == "Alterar") {
+                            $('#ContentPlaceHolder1_hfAltSecao').val(result.d[0].id);
+                            $('#ContentPlaceHolder1_AlttxtSecao').val(result.d[0].descricao_com_caracter);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+        }
+
+        function jsValidar() {
+            var descr_modulo = "";
+            var caminho = "";
+            var secao_id = "";
+            var usu_grupo_id = "";
+
+            if (Acao == "Inserir") {
+                if ($('#ContentPlaceHolder1_txtDescricao').val().trim() == '') {
+                    alert("Por favor informe a descrição de módulos.");
+                    $('#ContentPlaceHolder1_txtDescricao').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_txtCaminho').val().trim() == '') {
+                    alert("Por favor informe o caminho.");
+                    $('#ContentPlaceHolder1_txtCaminho').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_hfGrupoUsuario').val().trim() == '') {
+                    alert("Por favor informe o Grupo do Usuário");
+                    return false;
+                } else if ($('#ContentPlaceHolder1_hfSecao').val().trim() == '') {
+                    alert("Por favor informe a Seção");
+                    return false;
+                }
+
+                descr_modulo = $('#ContentPlaceHolder1_txtDescricao').val();
+                caminho = $('#ContentPlaceHolder1_txtCaminho').val();
+                usu_grupo_id = $('#ContentPlaceHolder1_hfGrupoUsuario').val();
+                secao_id = $('#ContentPlaceHolder1_hfSecao').val();
+
+            } else if (Acao == "Alterar") {
+                if ($('#ContentPlaceHolder1_AlttxtDescricao').val().trim() == '') {
+                    alert("Por favor informe a descrição de módulos.");
+                    $('#ContentPlaceHolder1_AlttxtDescricao').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_AlttxtCaminho').val().trim() == '') {
+                    alert("Por favor informe o caminho.");
+                    $('#ContentPlaceHolder1_AlttxtCaminho').focus();
+                    return false;
+                } else if ($('#ContentPlaceHolder1_hfAltGrupoUsuario').val().trim() == '') {
+                    alert("Por favor informe o Grupo do Usuário");
+                    return false;
+                } else if ($('#ContentPlaceHolder1_hfAltSecao').val().trim() == '') {
+                    alert("Por favor informe a Seção");
+                    return false;
+                }
+
+
+                descr_modulo = $('#ContentPlaceHolder1_AlttxtDescricao').val();
+                caminho = $('#ContentPlaceHolder1_AlttxtCaminho').val();
+                usu_grupo_id = $('#ContentPlaceHolder1_hfAltGrupoUsuario').val();
+                secao_id = $('#ContentPlaceHolder1_hfAltSecao').val();
+            }
+
+            $.ajax({
+                type: "post",
+                url: "CadModulos.aspx/GravarRegistro",
+                data: JSON.stringify({
+                    descr_modulo: descr_modulo,
+                    caminho: caminho,
+                    secao_id: secao_id,
+                    usu_grupo_id: usu_grupo_id,
+                    acao: Acao,
+                    id_alt: $('#ContentPlaceHolder1_hfmodulos').val()
+                }),
+                async: false,
+                contentType: 'application/json; charset=utf-8',
+                dataType: "json",
+                traditional: true,
+                success: function (result) {
+                    if (result.d) {
+                        return true;
+                    }
+                },
+                error: function (error) {
+                    return false;
+                }
+            });
+
+        }
+
 
     </script>
 
@@ -400,7 +653,7 @@
                                             </td>
                                             <td class="center" style="font-size: 11px;"><%# Eval("descr_modulo") %></td>
                                             <td class="center" style="font-size: 11px;"><%# Eval("caminho") %></td>
-                                            <td class="center" style="font-size: 11px;"><%# Eval("descricao_sem_caracter") %></td>
+                                            <td class="center" style="font-size: 11px;"><%# Eval("descricao_com_caracter") %></td>
                                             <td class="center" style="font-size: 11px;"><%# Eval("desc_grupo") %></td>
                                         </tr>
                                     </ItemTemplate>
@@ -425,12 +678,126 @@
                         </div>
                         <div class="modal-body">
 
-                            
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Descrição:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="text" id="txtDescricao" placeholder="Digite a descrição " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 42px;" />
+                                    <input type="hidden" runat="server" id="hftxtDescricao" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Caminho:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="text" id="txtCaminho" placeholder="Digite o Caminho " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 42px; text-transform: uppercase" />
+                                    <input type="hidden" runat="server" id="hftxtCaminho" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+
+                                <label class="col-sm-3">
+                                    Grupo de Usuário:
+                                </label>
+                                <div class="col-sm-7">
+                                    <img runat="server" src="~/Imagens/lupa.png" id="imgLupaGrupoUsuario" style="float: left; width: 22px; height: 30px;" />
+                                    <input runat="server" type="text" id="txtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur="jsvalidarPesqGrupoUsuario();" />
+                                    <input type="hidden" runat="server" id="hfGrupoUsuario" />
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+
+                                <label class="col-sm-3">
+                                    Seção:
+                                </label>
+                                <div class="col-sm-7">
+                                    <img runat="server" src="~/Imagens/lupa.png" id="imgLupaSecao" style="float: left; width: 22px; height: 30px;" />
+                                    <input runat="server" type="text" id="txtSecao" placeholder="Digite a descrição " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur="jsvalidarPesqSecao();" />
+                                    <input type="hidden" runat="server" id="hfSecao" />
+                                </div>
+                            </div>
+
 
                         </div>
                         <div class="modal-footer">
                             <asp:Button runat="server" ID="btnInserir" CssClass="btn btn-success" Text="Inserir" OnClick="btnInserir_Click"
                                 OnClientClick="return jsValidar()" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" tabindex="-1" id="AlterarModal" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Alterar Registro</h5>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Descrição:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="text" id="AlttxtDescricao" placeholder="Digite a descrição " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 42px;" />
+                                    <input type="hidden" runat="server" id="hfAlttxtDescricao" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label class="col-sm-1">
+                                    Caminho:
+                                </label>
+
+                                <div class="col-sm-6">
+                                    <input runat="server" type="text" id="AlttxtCaminho" placeholder="Digite o Caminho " class="form-control"
+                                        style="width: 658px; float: left; position: absolute; left: 42px; text-transform: uppercase" />
+                                    <input type="hidden" runat="server" id="hfAlttxtCaminho" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+
+                                <label class="col-sm-3">
+                                    Grupo de Usuário:
+                                </label>
+                                <div class="col-sm-7">
+                                    <img runat="server" src="~/Imagens/lupa.png" id="AltimgLupaGrupoUsuario" style="float: left; width: 22px; height: 30px;" />
+                                    <input runat="server" type="text" id="AlttxtGrupoUsuario" placeholder="Digite Grupo de Usuario " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur="jsvalidarPesqGrupoUsuario();" />
+                                    <input type="hidden" runat="server" id="hfAltGrupoUsuario" />
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+
+                                <label class="col-sm-3">
+                                    Seção:
+                                </label>
+                                <div class="col-sm-7">
+                                    <img runat="server" src="~/Imagens/lupa.png" id="AltimgLupaSecao" style="float: left; width: 22px; height: 30px;" />
+                                    <input runat="server" type="text" id="AlttxtSecao" placeholder="Digite a descrição " class="form-control" style="width: 370px; float: left; text-transform: uppercase" onblur="jsvalidarPesqSecao();" />
+                                    <input type="hidden" runat="server" id="hfAltSecao" />
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button runat="server" ID="btnAlterar" CssClass="btn btn-success" Text="Alterar" OnClick="btnAlterar_Click" OnClientClick="return jsValidar()" />
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         </div>
                     </div>
@@ -461,5 +828,6 @@
         </section>
     </section>
 
-
+    <ctrl:FiltroGrupoUsuario runat="server" ID="ctrFiltroGrupoUsuario" />
+    <ctrl:FiltroSecao runat="server" ID="ctrFiltroSecao" />
 </asp:Content>

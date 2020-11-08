@@ -359,7 +359,7 @@
             if (Acao == "Inserir") {
                 txtGrupoUsuario = $('#ContentPlaceHolder1_txtGrupoUsuario').val();
             } else if (Acao == "Alterar") {
-                
+                txtGrupoUsuario = $('#ContentPlaceHolder1_AlttxtGrupoUsuario').val();
             }
 
             if (txtGrupoUsuario != "") {
@@ -376,7 +376,8 @@
                             $('#ContentPlaceHolder1_hfGrupoUsuario').val(result.d[0].id);
                             $('#ContentPlaceHolder1_txtGrupoUsuario').val(result.d[0].desc_grupo);
                         } else if (Acao == "Alterar") {
-
+                            $('#ContentPlaceHolder1_hfAltGrupoUsuario').val(result.d[0].id);
+                            $('#ContentPlaceHolder1_AlttxtGrupoUsuario').val(result.d[0].desc_grupo);
                         }
                     },
                     error: function (error) {

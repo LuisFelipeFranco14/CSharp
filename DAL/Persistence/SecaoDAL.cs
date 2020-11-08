@@ -183,5 +183,35 @@ namespace DAL.Persistence
             }
         }
 
+        public Secao getSecao(string descricao_com_caracter)
+        {
+            try
+            {
+                AbrirConexao();
+                Cmd = new MySqlCommand("select * from tbsecao where descricao_com_caracter LIKE concat('%', @descricao_com_caracter, '%') ", Con);
+                Cmd.Parameters.AddWithValue("@descricao_com_caracter", descricao_com_caracter);
+                Dr = Cmd.ExecuteReader();
+
+                Secao s = null;
+
+                if (Dr.Read())
+                {
+                    s = new Secao();
+                    s.id = Convert.ToInt32(Dr["id"]);
+                    s.descricao_com_caracter = Convert.ToString(Dr["descricao_com_caracter"]);
+                }
+                return s;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao Buscar o Usuário: " + ex.Message);
+            }
+            finally
+            {
+                FecharConexao();
+            }
+        }
+
     }
 }
