@@ -1,6 +1,4 @@
-﻿
-
-namespace DAL.Model
+﻿namespace DAL.Model
 {
     public class Grupo_Usuario
     {

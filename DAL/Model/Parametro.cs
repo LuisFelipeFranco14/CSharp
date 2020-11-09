@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DAL.Model
+﻿namespace DAL.Model
 {
     public class Parametro
     {

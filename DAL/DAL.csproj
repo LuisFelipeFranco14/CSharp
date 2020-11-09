@@ -89,6 +89,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Empresa.cs" />
     <Compile Include="Model\Grupo_Usuario.cs" />
     <Compile Include="Model\Modulo.cs" />
     <Compile Include="Model\Parametro.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Model\Usuario.cs" />
     <Compile Include="Model\ViaCep.cs" />
     <Compile Include="Persistence\Conexao.cs" />
+    <Compile Include="Persistence\EmpresaDAL.cs" />
     <Compile Include="Persistence\Grupo_UsuarioDAL.cs" />
     <Compile Include="Persistence\library.cs" />
     <Compile Include="Persistence\ModuloDAL.cs" />
