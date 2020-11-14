@@ -100,7 +100,7 @@ namespace DAL.Persistence
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("delete from tbpessoa where id in ("+id+")", Con);
+                Cmd = new MySqlCommand("delete from tbpessoa where id in (" + id + ")", Con);
                 Cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -201,12 +201,69 @@ namespace DAL.Persistence
             }
         }
 
+        public List<Pessoa> GetALLPessoaJuridica(string Razoasocial = "", string NomeFantasia = "", string CNPJ = "")
+        {
+            try
+            {
+                AbrirConexao();
+                if (CNPJ != "")
+                {
+                    Cmd = new MySqlCommand("select * from tbpessoa where flag_pessoa = 'J' and CNPJ_CPF like '%" + CNPJ + "%'", Con);
+                }
+                else if (NomeFantasia != "")
+                {
+                    Cmd = new MySqlCommand("select * from tbpessoa where flag_pessoa = 'J' and Nome_fantasia like '%" + NomeFantasia + "%'", Con);
+                }
+                else if (Razoasocial != "")
+                {
+                    Cmd = new MySqlCommand("select * from tbpessoa where flag_pessoa = 'J' and Nome_razao_social like '%" + Razoasocial + "%'", Con);
+                }
+
+                Dr = Cmd.ExecuteReader();
+
+                List<Pessoa> ListaPessoa = new List<Pessoa>();
+
+                while (Dr.Read())
+                {
+                    Pessoa p_temp = new Pessoa();
+                    p_temp.id = Convert.ToInt32(Dr["id"]);
+                    p_temp.Nome_razao_social = Convert.ToString(Dr["Nome_razao_social"]);
+                    p_temp.Nome_fantasia = Convert.ToString(Dr["Nome_fantasia"]);
+                    p_temp.CNPJ_CPF = Convert.ToString(Dr["CNPJ_CPF"]);
+                    p_temp.inscricao_estadual = Convert.ToString(Dr["inscricao_estadual"]);
+                    p_temp.dt_nascimento = Convert.ToDateTime(Dr["dt_nascimento"]);
+                    p_temp.CEP = Convert.ToString(Dr["CEP"]);
+                    p_temp.Logradouro = Convert.ToString(Dr["Logradouro"]);
+                    p_temp.Bairro = Convert.ToString(Dr["Bairro"]);
+                    p_temp.Cidade = Convert.ToString(Dr["Cidade"]);
+                    p_temp.UF = Convert.ToString(Dr["UF"]);
+                    p_temp.numero = Convert.ToInt32(Dr["numero"]);
+                    p_temp.complemento = Convert.ToString(Dr["complemento"]);
+                    p_temp.telefone = Convert.ToString(Dr["telefone"]);
+                    p_temp.celular = Convert.ToString(Dr["celular"]);
+                    p_temp.email = Convert.ToString(Dr["email"]);
+                    p_temp.flag_pessoa = Convert.ToString(Dr["flag_pessoa"]);
+                    ListaPessoa.Add(p_temp);
+                }
+
+                return ListaPessoa;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao Buscar as Pessoas: " + ex.Message);
+            }
+            finally
+            {
+                FecharConexao();
+            }
+        }
+
         public List<Pessoa> relatorio(string id)
         {
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("select * from tbpessoa where id in ("+ id +")", Con);
+                Cmd = new MySqlCommand("select * from tbpessoa where id in (" + id + ")", Con);
                 Dr = Cmd.ExecuteReader();
 
                 List<Pessoa> ListaPessoa = new List<Pessoa>();
@@ -252,7 +309,7 @@ namespace DAL.Persistence
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("select * from tbpessoa where CNPJ_CPF=" + CNPJ_CPF +"", Con);
+                Cmd = new MySqlCommand("select * from tbpessoa where CNPJ_CPF=" + CNPJ_CPF + "", Con);
                 Dr = Cmd.ExecuteReader();
 
                 Boolean validar = false;

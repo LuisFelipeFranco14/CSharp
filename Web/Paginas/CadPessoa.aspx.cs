@@ -107,7 +107,8 @@ namespace Web.Paginas
                 telefone = pessoa.telefone.Insert(0, "(").Insert(3, ")").Insert(8, "-"),
                 celular = pessoa.celular.Insert(0, "(").Insert(3, ")").Insert(9, "-"),
                 email = pessoa.email,
-                flag_pessoa = pessoa.flag_pessoa
+                flag_pessoa = pessoa.flag_pessoa,
+                endereco = pessoa.Logradouro + ", " + pessoa.numero + pessoa.complemento
             };
             objpessoa.Add(Listpessoa);
             return objpessoa;

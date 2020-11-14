@@ -3,7 +3,7 @@
 function jsPageMethods(wsName, params, callBackFunction) {
 
     if (params != null)
-        strParams = JSON.stringify(params);
+        strParams = params;
     else
         strParams = '';
 
@@ -13,6 +13,7 @@ function jsPageMethods(wsName, params, callBackFunction) {
         type: 'POST',
         url: wsName,
         data: strParams,
+        async: false,
         contentType: 'application/json; charset=utf-8',
         beforeSend: function () {
             jsLoading(true);
