@@ -51,7 +51,7 @@ namespace DAL.Persistence
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("delete from tbempresa where in (" + id + ")", Con);
+                Cmd = new MySqlCommand("delete from tbempresa where id in (" + id + ")", Con);
                 Cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -129,7 +129,7 @@ namespace DAL.Persistence
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("select * from tbempresa id in (" + id + ")", Con);
+                Cmd = new MySqlCommand("select * from tbempresa where id in (" + id + ")", Con);
                 Dr = Cmd.ExecuteReader();
 
                 List<Empresa> ListaEmpresa = new List<Empresa>();

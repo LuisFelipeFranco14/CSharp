@@ -338,6 +338,7 @@
     <Content Include="Assets\jquery-knob\js\jquery.knob.js" />
     <Content Include="Imagens\camaleao.jpg" />
     <Content Include="Imagens\lupa.png" />
+    <Content Include="Paginas\CadEmpresa.aspx" />
     <Content Include="Paginas\CadGrupoUser.aspx" />
     <Content Include="Paginas\CadModulos.aspx" />
     <Content Include="Paginas\CadParametro.aspx" />
@@ -345,6 +346,7 @@
     <Content Include="Paginas\CadSecao.aspx" />
     <Content Include="Paginas\CadUsuario.aspx" />
     <Content Include="Paginas\Filtros\FiltroGrupoUsuario.ascx" />
+    <Content Include="Paginas\Filtros\FiltroPessoa.ascx" />
     <Content Include="Paginas\Filtros\FiltroSecao.ascx" />
     <Content Include="Principal.aspx" />
     <Content Include="Login.aspx" />
@@ -415,6 +417,7 @@
     <Content Include="Scripts\sparkline-chart.js" />
     <Content Include="Scripts\sparklines.js" />
     <Content Include="Scripts\xcharts.min.js" />
+    <Content Include="Servicos\FiltroPessoa.asmx" />
     <Content Include="Style\bootstrap-switch.min.css" />
     <Content Include="Style\bootstrap-theme.css" />
     <Content Include="Style\bootstrap.min.css" />
@@ -440,6 +443,13 @@
     <Content Include="Index.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Paginas\CadEmpresa.aspx.cs">
+      <DependentUpon>CadEmpresa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\CadEmpresa.aspx.designer.cs">
+      <DependentUpon>CadEmpresa.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Paginas\CadGrupoUser.aspx.cs">
       <DependentUpon>CadGrupoUser.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -489,6 +499,13 @@
     <Compile Include="Paginas\Filtros\FiltroGrupoUsuario.ascx.designer.cs">
       <DependentUpon>FiltroGrupoUsuario.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Paginas\Filtros\FiltroPessoa.ascx.cs">
+      <DependentUpon>FiltroPessoa.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Paginas\Filtros\FiltroPessoa.ascx.designer.cs">
+      <DependentUpon>FiltroPessoa.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Paginas\Filtros\FiltroSecao.ascx.cs">
       <DependentUpon>FiltroSecao.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -517,6 +534,9 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Servicos\FiltroPessoa.asmx.cs">
+      <DependentUpon>FiltroPessoa.asmx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

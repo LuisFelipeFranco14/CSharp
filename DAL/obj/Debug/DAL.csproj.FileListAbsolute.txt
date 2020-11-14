@@ -28,4 +28,4 @@ D:\Projetos\.Net\ASP\Adaptus\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 D:\Projetos\.Net\ASP\Adaptus\DAL\obj\Debug\DAL.csproj.CopyComplete
 D:\Projetos\.Net\ASP\Adaptus\DAL\obj\Debug\DAL.dll
 D:\Projetos\.Net\ASP\Adaptus\DAL\obj\Debug\DAL.pdb
-D:\Projetos\.Net\ASP\Adaptus\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
+D:\Projetos\.Net\ASP\Adaptus\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache

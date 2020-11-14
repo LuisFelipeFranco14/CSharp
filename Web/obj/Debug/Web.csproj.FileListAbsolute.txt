@@ -149,8 +149,8 @@ D:\Projetos\.Net\ASP\Adaptus\Web\bin\System.Security.Principal.Windows.xml
 D:\Projetos\.Net\ASP\Adaptus\Web\bin\System.Text.Encodings.Web.xml
 D:\Projetos\.Net\ASP\Adaptus\Web\bin\System.Threading.Tasks.Extensions.xml
 D:\Projetos\.Net\ASP\Adaptus\Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Projetos\.Net\ASP\Adaptus\Web\obj\Debug\Web.csprojAssemblyReference.cache
 D:\Projetos\.Net\ASP\Adaptus\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
 D:\Projetos\.Net\ASP\Adaptus\Web\obj\Debug\Web.csproj.CopyComplete
 D:\Projetos\.Net\ASP\Adaptus\Web\obj\Debug\Web.dll
 D:\Projetos\.Net\ASP\Adaptus\Web\obj\Debug\Web.pdb
+D:\Projetos\.Net\ASP\Adaptus\Web\obj\Debug\Web.csproj.AssemblyReference.cache

@@ -286,11 +286,15 @@
 
                 <div class="brand">
                     <a href="<%= ResolveUrl("~/Principal.aspx") %>" class="logo" style="font-weight: bold;">Adaptus</a>
+
+                    <asp:Button runat="server" ID="btnSair" 
+               style="float:right; padding: 13px 21px; vertical-align: middle;"         
+                        class="btn btn-danger" Text="Sair" OnClientClick="return jsSair();" OnClick="btnSair_Click" />
+
+
                 </div>
 
                 <i class="fa fa-bars fa-2x toggle-btn" onclick="jsFecharMenu();"></i>
-                <asp:Button runat="server" Style="position: absolute; top: 1px; left: 1450px;" ID="btnSair" Text="Sair" OnClientClick="return jsSair();" OnClick="btnSair_Click" class="btn btn-danger btn-lg" />
-
 
                 <div class="nav-side-menu" id="divMenu">
                     <div class="menu-list" id="submenu" style="display: none;">
