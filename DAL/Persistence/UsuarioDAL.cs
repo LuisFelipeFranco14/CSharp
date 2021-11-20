@@ -55,7 +55,7 @@ namespace DAL.Persistence
             try
             {
                 AbrirConexao();
-                Cmd = new MySqlCommand("delete from tbusuario where in (" + id + ")", Con);
+                Cmd = new MySqlCommand("delete from tbusuario where id in (" + id + ")", Con);
                 Cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
