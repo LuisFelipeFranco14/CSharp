@@ -18,7 +18,7 @@ namespace DAL.Persistence
             try
             {
                 Con = new MySqlConnection();
-                Con.ConnectionString = "Server=localhost;Database=adaptus;uid=Adaptus;password=@lobo1404;";
+                Con.ConnectionString = "Server=localhost;Database=adaptus;uid=Adaptus;password=@macaco29;";
                 Con.Open();
             }
             catch (Exception ex)
