@@ -38,7 +38,7 @@
             } else return false;
         }
 
-        function jsFecharMenu() {
+        function jsFecharMenu(validate) {
             var submenu = document.getElementById('submenu');
             var nav_menu = document.getElementById('divMenu');
             var cadastro = document.getElementById('cadastro');
@@ -47,7 +47,7 @@
                 submenu.style.display = 'none';
                 nav_menu.style.zIndex = '0';
 
-            } else {
+            } else if (validate) {
                 submenu.style.display = 'block';
 
                 nav_menu.style.zIndex = '1000';
@@ -284,7 +284,7 @@
         <div>
             <section id="container" class="sidebar-closed">
 
-                <div class="brand">
+                <div class="brand" onclick="jsFecharMenu(false);">
                     <a href="<%= ResolveUrl("~/Principal.aspx") %>" class="logo" style="font-weight: bold;">Adaptus</a>
 
                     <asp:Button runat="server" ID="btnSair" 
@@ -293,7 +293,7 @@
                      
                 </div>
 
-                <i class="fa fa-bars fa-2x toggle-btn" onclick="jsFecharMenu();"></i>
+                <i class="fa fa-bars fa-2x toggle-btn" onclick="jsFecharMenu(true);"></i>
 
                 <div class="nav-side-menu" id="divMenu">
                     <div class="menu-list" id="submenu" style="display: none;">
@@ -338,7 +338,7 @@
 
         </div>
 
-        <div>
+        <div onclick="jsFecharMenu(false);">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>

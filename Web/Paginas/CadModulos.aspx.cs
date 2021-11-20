@@ -1,6 +1,7 @@
 ﻿using System;
 using DAL.Model;
 using DAL.Persistence;
+using DAL.Global;
 using System.Web.Services;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -68,7 +69,9 @@ namespace Web.Paginas
         {
             Modulo m = new Modulo();
             ModuloDAL mDAL = new ModuloDAL();
-            m.descr_modulo = descr_modulo;
+            GlobalFunctions mGlobal = new GlobalFunctions();
+            mGlobal.InicialUpperRestLowerString(descr_modulo);
+            m.descr_modulo = mGlobal.fexpression;
             m.caminho = caminho;
             m.id_secao_fk = Convert.ToInt32(secao_id);
             m.id_grupo_usuario_fk = Convert.ToInt32(usu_grupo_id);
