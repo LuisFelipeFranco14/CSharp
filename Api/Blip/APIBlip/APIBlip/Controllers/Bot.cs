@@ -1,4 +1,5 @@
 ﻿using Git;
+using Blip;
 using Lime.Protocol;
 using Lime.Protocol.Serialization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System.Net;
 using System.Text.Json.Nodes;
+using System.Runtime.InteropServices.JavaScript;
 
 namespace Bot_HTTP.Controllers
 {
@@ -50,6 +52,8 @@ namespace Bot_HTTP.Controllers
                 var client = new RestClient(_config.GetValue<string>("UrlBase"));
                 var request = new RestRequest("/messages", Method.Post);
 
+                
+
                 request.AddHeader("Content-Type", "application/json");
                 request.AddHeader("Authorization", _config.GetValue<string>("AutoriaztionKey"));
                 request.AddParameter("application/json", _BlipJson, ParameterType.RequestBody);
@@ -68,12 +72,29 @@ namespace Bot_HTTP.Controllers
             string Diretorio = AppDomain.CurrentDomain.BaseDirectory;
             Diretorio = Diretorio.Replace(@"\APIBlip\APIBlip\bin\Debug\net7.0\", @"\") + @"Flow\" + @"apibliplf.json";
             StreamReader r = new StreamReader(Diretorio);
-            var jsonObject = JsonConvert.DeserializeObject(r.ReadToEnd());
-            string _BlipJson = jsonObject.ToString() + "*";
+            string _BlipJson = r.ReadToEnd();;
+            JsonNode jsonObject = JsonNode.Parse(_BlipJson)!;
+            JsonNode flowNode = jsonObject!["flow"]!;
+            JsonNode CardCarrosselNode = flowNode!["c1deaeae-c24b-4b60-946b-3648e33ec269"]!;
+            JsonNode ContentCarrosselNode = CardCarrosselNode!["contentActions"];
+            string json = """
+
+                          """;
+            foreach (Repos repo in _repos)
+            {
+                if (repo == null)
+                {
+                    
+                }
+            }
+
+            Console.WriteLine(ContentCarrosselNode.ToString());
+
+
+            _BlipJson = _BlipJson + "*";
             _BlipJson = _BlipJson.Replace("\"flow\"", "\"id\": " + "%id%" + ", \"type\": \"text/plain\",  \"flow\"");
             _BlipJson = _BlipJson.Replace("}*", ", \"to\": " + "%message%" + ", }");
             Console.WriteLine("Json Inserido....");
-
             return _BlipJson;
         }
 
@@ -115,7 +136,6 @@ namespace Bot_HTTP.Controllers
                 streamDados.Close();
                 resposta.Close();
                 Console.WriteLine("Cadastro de repósitorios feito com sucesso!");
-                Console.WriteLine(_repos.Count);
             }
             return _repos;
         }
