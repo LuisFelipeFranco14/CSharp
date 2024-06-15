@@ -52,8 +52,6 @@ namespace Bot_HTTP.Controllers
                 var client = new RestClient(_config.GetValue<string>("UrlBase"));
                 var request = new RestRequest("/messages", Method.Post);
 
-                
-
                 request.AddHeader("Content-Type", "application/json");
                 request.AddHeader("Authorization", _config.GetValue<string>("AutoriaztionKey"));
                 request.AddParameter("application/json", _BlipJson, ParameterType.RequestBody);
@@ -68,18 +66,31 @@ namespace Bot_HTTP.Controllers
         private string? GetJsonBlip()
         {
             Console.WriteLine("Carregar Json....");
+            // Buscar a informação direto no arquivo
+            //string Diretorio = AppDomain.CurrentDomain.BaseDirectory;
+            //Diretorio = Diretorio.Replace(@"\APIBlip\APIBlip\bin\Debug\net7.0\", @"\") + @"Flow\" + @"apibliplf.json";
+            //StreamReader r = new StreamReader(Diretorio);
+            //string _BlipJson = r.ReadToEnd();
+            //JsonNode jsonObject = JsonNode.Parse(_BlipJson)!;
+            //JsonNode flowNode = jsonObject!["flow"]!;
+            //JsonNode CardCarrosselNode = flowNode!["c1deaeae-c24b-4b60-946b-3648e33ec269"]!;
+            //JsonNode ContentCarrosselNode = CardCarrosselNode!["contentActions"];
 
-            string Diretorio = AppDomain.CurrentDomain.BaseDirectory;
-            Diretorio = Diretorio.Replace(@"\APIBlip\APIBlip\bin\Debug\net7.0\", @"\") + @"Flow\" + @"apibliplf.json";
-            StreamReader r = new StreamReader(Diretorio);
-            string _BlipJson = r.ReadToEnd();;
-            JsonNode jsonObject = JsonNode.Parse(_BlipJson)!;
-            JsonNode flowNode = jsonObject!["flow"]!;
-            JsonNode CardCarrosselNode = flowNode!["c1deaeae-c24b-4b60-946b-3648e33ec269"]!;
-            JsonNode ContentCarrosselNode = CardCarrosselNode!["contentActions"];
-            string json = """
+            BlipJson blipJson = new BlipJson();
+            Flow flow = new Flow();
+            Onboarding onboarding = new Onboarding();
+            Fallback fallback = new Fallback();
+            Error error = new Error();
+            Be5EbcdaF3E248E99F0DD4E421F8Fb34 Apresentacao = new Be5EbcdaF3E248E99F0DD4E421F8Fb34();
+            The392Fa901Dbf04F2087AeAb667Ce3B11A takeBe = new The392Fa901Dbf04F2087AeAb667Ce3B11A();
+            GlobalActions taketeam = new GlobalActions();
+            GlobalActions takeExecellence = new GlobalActions();
+            GlobalActions takeCharge = new GlobalActions();
+            GlobalActions takeSimple = new GlobalActions();
+            GlobalActions takeHigher = new GlobalActions();
+            GlobalActions desafio = new GlobalActions();
+            GlobalActions globalActions = new GlobalActions();
 
-                          """;
             foreach (Repos repo in _repos)
             {
                 if (repo == null)
@@ -88,9 +99,14 @@ namespace Bot_HTTP.Controllers
                 }
             }
 
-            Console.WriteLine(ContentCarrosselNode.ToString());
+            flow.Onboarding = onboarding;
+            flow.Fallback = fallback;   
+            flow.Error = error;
+            blipJson.Flow = flow;
+            blipJson.GlobalActions = globalActions;
+            var jsonString = JsonConvert.SerializeObject(blipJson);
 
-
+            string _BlipJson = jsonString;
             _BlipJson = _BlipJson + "*";
             _BlipJson = _BlipJson.Replace("\"flow\"", "\"id\": " + "%id%" + ", \"type\": \"text/plain\",  \"flow\"");
             _BlipJson = _BlipJson.Replace("}*", ", \"to\": " + "%message%" + ", }");
@@ -114,10 +130,6 @@ namespace Bot_HTTP.Controllers
                 JsonNode jsonObject = JsonNode.Parse(objResponse.ToString());
                 JsonNode root = jsonObject.Root;
                 JsonArray reposArray = root["items"]!.AsArray();
-
-                //List<Repos> repos = JsonConvert.DeserializeObject<List<Repos>>((string)reposArray);
-                //List<Repos> repos = JsonSerializer.Deserialize<List<Repos>>(jsonObject.ToJsonString());
-                //Console.WriteLine(reposArray.Count);
 
                 foreach (JsonNode? repo in reposArray)
                 {
